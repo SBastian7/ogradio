@@ -1,0 +1,124 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background-dark: #0a0a0f;
+    --background-darker: #1a1a2e;
+    --accent-blue: #00d4ff;
+    --accent-purple: #b794f6;
+    --glass-border: rgba(255, 255, 255, 0.1);
+    --glass-bg: rgba(255, 255, 255, 0.05);
+  }
+
+  body {
+    @apply bg-gradient-to-br from-background-dark to-background-darker text-white antialiased;
+    min-height: 100vh;
+  }
+
+  /* Scrollbar styling */
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    @apply bg-background-dark/50;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply bg-accent-blue/30 rounded-full;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-accent-blue/50;
+  }
+}
+
+@layer components {
+  /* Glass morphism panel */
+  .glass-panel {
+    @apply bg-glass-bg backdrop-blur-lg border border-glass-border rounded-xl;
+    @apply transition-all duration-200 ease-out;
+  }
+
+  .glass-panel:hover {
+    @apply bg-glass-bg/10 border-glass-border/30;
+    backdrop-filter: blur(20px);
+  }
+
+  /* Brutalist button */
+  .btn-brutalist {
+    @apply uppercase font-black tracking-wider;
+    @apply px-6 py-3 rounded-lg;
+    @apply border-2 border-white;
+    @apply transition-all duration-200;
+    @apply hover:scale-105 hover:shadow-lg hover:shadow-accent-blue/50;
+  }
+
+  .btn-primary {
+    @apply btn-brutalist bg-accent-blue text-background-dark;
+    @apply hover:bg-accent-blue/90;
+  }
+
+  .btn-secondary {
+    @apply btn-brutalist bg-accent-purple text-white;
+    @apply hover:bg-accent-purple/90;
+  }
+
+  .btn-ghost {
+    @apply btn-brutalist bg-transparent border-glass-border;
+    @apply hover:bg-glass-bg hover:border-accent-blue;
+  }
+
+  /* Glassmorphic input */
+  .input-glass {
+    @apply w-full px-4 py-3 rounded-lg;
+    @apply bg-glass-bg backdrop-blur-lg;
+    @apply border border-glass-border;
+    @apply text-white placeholder:text-white/50;
+    @apply focus:outline-none focus:ring-2 focus:ring-accent-blue focus:border-transparent;
+    @apply transition-all duration-200;
+  }
+
+  /* Animated gradient text */
+  .gradient-text {
+    @apply bg-gradient-to-r from-accent-blue to-accent-purple;
+    @apply bg-clip-text text-transparent;
+  }
+
+  /* Glow effect */
+  .glow-blue {
+    box-shadow: 0 0 20px rgba(0, 212, 255, 0.3);
+  }
+
+  .glow-purple {
+    box-shadow: 0 0 20px rgba(183, 148, 246, 0.3);
+  }
+}
+
+@layer utilities {
+  .will-change-transform {
+    will-change: transform;
+  }
+
+  .will-change-opacity {
+    will-change: opacity;
+  }
+
+  .gpu-accelerated {
+    transform: translateZ(0);
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
