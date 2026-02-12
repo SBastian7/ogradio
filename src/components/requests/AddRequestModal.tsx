@@ -33,7 +33,7 @@ export function AddRequestModal({
     setError(null)
 
     if (!songName.trim() || !artist.trim()) {
-      setError('Both song name and artist are required')
+      setError('El nombre de la canción y el artista son requeridos')
       return
     }
 
@@ -85,7 +85,7 @@ export function AddRequestModal({
                     <Plus className="w-5 h-5" />
                   </div>
                   <h2 className="font-display font-black text-xl">
-                    REQUEST A SONG
+                    SOLICITAR UNA CANCIÓN
                   </h2>
                 </div>
 
@@ -93,7 +93,7 @@ export function AddRequestModal({
                   onClick={handleClose}
                   disabled={isSubmitting}
                   className="absolute top-5 right-6 p-2 hover:bg-white/10 rounded-lg transition-colors disabled:opacity-50"
-                  aria-label="Close modal"
+                  aria-label="Cerrar modal"
                 >
                   <X className="w-5 h-5" />
                 </button>
@@ -107,7 +107,7 @@ export function AddRequestModal({
                     htmlFor="song-name"
                     className="block text-sm font-bold text-white/70 uppercase tracking-wide"
                   >
-                    Song Name
+                    Nombre de la Canción
                   </label>
                   <div className="relative">
                     <Music className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-white/30" />
@@ -117,7 +117,7 @@ export function AddRequestModal({
                       value={songName}
                       onChange={(e) => setSongName(e.target.value)}
                       disabled={isSubmitting}
-                      placeholder="Enter song title"
+                      placeholder="Ingresa el título de la canción"
                       maxLength={100}
                       className="w-full pl-12 pr-4 py-3 bg-white/5 border-2 border-white/10 rounded-xl
                         text-white placeholder:text-white/30
@@ -136,7 +136,7 @@ export function AddRequestModal({
                     htmlFor="artist"
                     className="block text-sm font-bold text-white/70 uppercase tracking-wide"
                   >
-                    Artist
+                    Artista
                   </label>
                   <div className="relative">
                     <User className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-white/30" />
@@ -146,7 +146,7 @@ export function AddRequestModal({
                       value={artist}
                       onChange={(e) => setArtist(e.target.value)}
                       disabled={isSubmitting}
-                      placeholder="Enter artist name"
+                      placeholder="Ingresa el nombre del artista"
                       maxLength={100}
                       className="w-full pl-12 pr-4 py-3 bg-white/5 border-2 border-white/10 rounded-xl
                         text-white placeholder:text-white/30
@@ -178,11 +178,11 @@ export function AddRequestModal({
                   disabled={isSubmitting || !songName.trim() || !artist.trim()}
                   className="w-full"
                 >
-                  {isSubmitting ? 'SUBMITTING...' : 'SUBMIT REQUEST'}
+                  {isSubmitting ? 'ENVIANDO...' : 'ENVIAR SOLICITUD'}
                 </Button>
 
                 <p className="text-xs text-center text-white/40">
-                  Your request will be added to the queue
+                  Tu solicitud será agregada a la cola
                 </p>
               </form>
             </motion.div>

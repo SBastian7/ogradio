@@ -98,13 +98,13 @@ export const MessageBubble = memo(function MessageBubble({ message, onRetry }: M
 
           {!isAnonymous && (
             <Badge variant="verified" size="sm">
-              Verified
+              Verificado
             </Badge>
           )}
 
           {isAnonymous && (
             <Badge variant="default" size="sm">
-              Anonymous
+              Anónimo
             </Badge>
           )}
 
@@ -112,7 +112,7 @@ export const MessageBubble = memo(function MessageBubble({ message, onRetry }: M
             {message._optimistic ? (
               <span className="flex items-center gap-1">
                 <Clock className="w-3 h-3" />
-                Sending...
+                Enviando...
               </span>
             ) : (
               formatRelativeTime(message.created_at)
@@ -139,13 +139,13 @@ export const MessageBubble = memo(function MessageBubble({ message, onRetry }: M
           {message._error && (
             <div className="flex items-center gap-2 mt-2 pt-2 border-t border-red-500/20">
               <AlertCircle className="w-4 h-4 text-red-400" />
-              <span className="text-xs text-red-400">Failed to send</span>
+              <span className="text-xs text-red-400">Error al enviar</span>
               <button
                 onClick={() => onRetry(message.id)}
                 className="ml-auto text-xs text-red-400 hover:text-red-300 flex items-center gap-1 transition-colors"
               >
                 <RefreshCw className="w-3 h-3" />
-                Retry
+                Reintentar
               </button>
             </div>
           )}

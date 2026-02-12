@@ -18,13 +18,13 @@ export function TypingIndicator({ users }: TypingIndicatorProps) {
   // Format user names
   const formatUsers = () => {
     if (users.length === 1) {
-      return `${users[0].username} is typing`
+      return `${users[0].username} está escribiendo`
     } else if (users.length === 2) {
-      return `${users[0].username} and ${users[1].username} are typing`
+      return `${users[0].username} y ${users[1].username} están escribiendo`
     } else {
-      return `${users[0].username}, ${users[1].username}, and ${
+      return `${users[0].username}, ${users[1].username} y ${
         users.length - 2
-      } other${users.length - 2 > 1 ? 's are' : ' is'} typing`
+      } ${users.length - 2 > 1 ? 'otros están' : 'otro está'} escribiendo`
     }
   }
 

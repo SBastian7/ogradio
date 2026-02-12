@@ -83,7 +83,7 @@ export function useChat() {
         if (fetchError) {
           console.error('[Chat] Error loading messages:', fetchError)
           console.error('[Chat] Error details:', JSON.stringify(fetchError, null, 2))
-          throw new Error(`Failed to load messages: ${fetchError.message}`)
+          throw new Error(`Error al cargar mensajes: ${fetchError.message}`)
         }
 
         console.log('[Chat] ✓ Loaded messages:', data)
@@ -93,7 +93,7 @@ export function useChat() {
         setError(null)
       } catch (err) {
         console.error('[Chat] Caught error:', err)
-        const errorMessage = err instanceof Error ? err.message : 'Failed to load messages'
+        const errorMessage = err instanceof Error ? err.message : 'Error al cargar mensajes'
         if (mounted) {
           setMessages([])
           setError(errorMessage)
@@ -185,7 +185,7 @@ export function useChat() {
       const supabase = getSupabaseClient()
 
       if (!profile) {
-        setError('You must be logged in to send messages')
+        setError('Debes iniciar sesión para enviar mensajes')
         return false
       }
 
@@ -196,12 +196,12 @@ export function useChat() {
       })
 
       if (!sanitized || sanitized.length === 0) {
-        setError('Message cannot be empty')
+        setError('El mensaje no puede estar vacío')
         return false
       }
 
       if (sanitized.length > MAX_MESSAGE_LENGTH) {
-        setError(`Message too long (max ${MAX_MESSAGE_LENGTH} characters)`)
+        setError(`Mensaje demasiado largo (máximo ${MAX_MESSAGE_LENGTH} caracteres)`)
         return false
       }
 
@@ -258,7 +258,7 @@ export function useChat() {
               msg.id === optimisticMessage.id ? { ...msg, _error: true } : msg
             )
           )
-          throw insertError || new Error('Failed to insert message')
+          throw insertError || new Error('Error al insertar mensaje')
         }
 
         // Broadcast to all connected clients (including ourselves, but we'll ignore it)
@@ -284,7 +284,7 @@ export function useChat() {
         return true
       } catch (err) {
         console.error('Error sending message:', err)
-        setError('Failed to send message')
+        setError('Error al enviar mensaje')
         return false
       } finally {
         setIsSending(false)

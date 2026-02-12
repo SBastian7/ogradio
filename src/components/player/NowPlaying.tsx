@@ -22,7 +22,7 @@ export interface NowPlayingProps {
 
 export function NowPlaying({
   track = 'OG Club Radio',
-  artist = 'Live Stream',
+  artist = 'Transmisión en Vivo',
   albumArt,
   isLive = false,
   isPlaying = false,
@@ -47,7 +47,7 @@ export function NowPlaying({
         {albumArt ? (
           <Image
             src={albumArt}
-            alt={`${track} album art`}
+            alt={`${track} portada del álbum`}
             width={80}
             height={80}
             className="w-full h-full object-cover"
@@ -93,13 +93,13 @@ export function NowPlaying({
           </h3>
           {isLive && (
             <Badge variant="playing" size="sm" dot>
-              LIVE
+              EN VIVO
             </Badge>
           )}
         </div>
         <p className="text-white/70 text-sm truncate">{artist}</p>
         <p className="text-white/50 text-xs mt-1">
-          {isPlaying ? 'Now Playing' : 'Paused'}
+          {isPlaying ? 'Reproduciendo Ahora' : 'Pausado'}
         </p>
       </div>
     </div>

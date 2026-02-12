@@ -98,7 +98,7 @@ export function useSongRequests() {
         setError(null)
       } catch (err) {
         console.error('[SongRequests] Error loading:', err)
-        const errorMessage = err instanceof Error ? err.message : 'Failed to load requests'
+        const errorMessage = err instanceof Error ? err.message : 'Error al cargar solicitudes'
         if (mounted) {
           setError(errorMessage)
         }
@@ -202,7 +202,7 @@ export function useSongRequests() {
       const supabase = getSupabaseClient()
 
       if (!profile) {
-        setError('You must be logged in to request songs')
+        setError('Debes iniciar sesión para solicitar canciones')
         return false
       }
 
@@ -217,17 +217,17 @@ export function useSongRequests() {
       })
 
       if (!sanitizedSong || !sanitizedArtist) {
-        setError('Song name and artist are required')
+        setError('El nombre de la canción y el artista son requeridos')
         return false
       }
 
       if (sanitizedSong.length > MAX_SONG_NAME_LENGTH) {
-        setError(`Song name too long (max ${MAX_SONG_NAME_LENGTH} characters)`)
+        setError(`Nombre de canción demasiado largo (máximo ${MAX_SONG_NAME_LENGTH} caracteres)`)
         return false
       }
 
       if (sanitizedArtist.length > MAX_ARTIST_LENGTH) {
-        setError(`Artist name too long (max ${MAX_ARTIST_LENGTH} characters)`)
+        setError(`Nombre de artista demasiado largo (máximo ${MAX_ARTIST_LENGTH} caracteres)`)
         return false
       }
 
@@ -308,7 +308,7 @@ export function useSongRequests() {
         return true
       } catch (err) {
         console.error('[SongRequests] Error adding request:', err)
-        setError('Failed to add request')
+        setError('Error al agregar solicitud')
         return false
       } finally {
         setIsSubmitting(false)
@@ -325,7 +325,7 @@ export function useSongRequests() {
       const supabase = getSupabaseClient()
 
       if (!profile) {
-        setError('You must be logged in to vote')
+        setError('Debes iniciar sesión para votar')
         return false
       }
 
@@ -432,7 +432,7 @@ export function useSongRequests() {
           return newSet
         })
 
-        setError('Failed to update vote')
+        setError('Error al actualizar voto')
         return false
       }
     },

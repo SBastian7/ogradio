@@ -51,7 +51,7 @@ export function PlayerControls({
           'disabled:opacity-50 disabled:cursor-not-allowed',
           'border-2 border-white/20'
         )}
-        aria-label={isPlaying ? 'Pause' : 'Play'}
+        aria-label={isPlaying ? 'Pausar' : 'Reproducir'}
       >
         {isLoading ? (
           <Loader2 className="w-8 h-8 text-white animate-spin" />
@@ -88,7 +88,7 @@ export function PlayerControls({
           whileTap="pressed"
           onClick={onToggleMute}
           className="p-2 rounded-lg hover:bg-white/10 transition-colors"
-          aria-label={isMuted ? 'Unmute' : 'Mute'}
+          aria-label={isMuted ? 'Activar sonido' : 'Silenciar'}
         >
           {isMuted || volume === 0 ? (
             <VolumeX className="w-6 h-6 text-white/70" />
@@ -120,7 +120,7 @@ export function PlayerControls({
             value={isMuted ? 0 : volume * 100}
             onChange={(e) => onVolumeChange(Number(e.target.value) / 100)}
             className="absolute inset-0 w-full opacity-0 cursor-pointer"
-            aria-label="Volume"
+            aria-label="Volumen"
           />
         </div>
 

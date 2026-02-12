@@ -72,7 +72,7 @@ export function MessageList({
       <div className="flex items-center justify-center h-full">
         <div className="flex items-center gap-3 text-white/50">
           <Loader2 className="w-5 h-5 animate-spin" />
-          <span>Loading messages...</span>
+          <span>Cargando mensajes...</span>
         </div>
       </div>
     )
@@ -86,7 +86,7 @@ export function MessageList({
           <div>
             <p className="text-red-400 text-sm font-bold">{error}</p>
             <p className="text-red-400/70 text-xs mt-1">
-              Check your connection and try refreshing
+              Verifica tu conexión e intenta actualizar
             </p>
           </div>
         </div>
@@ -98,9 +98,9 @@ export function MessageList({
     return (
       <div className="flex items-center justify-center h-full p-4">
         <div className="text-center space-y-2">
-          <p className="text-white/50 text-sm">No messages yet</p>
+          <p className="text-white/50 text-sm">No hay mensajes aún</p>
           <p className="text-white/30 text-xs">
-            Be the first to say something!
+            ¡Sé el primero en decir algo!
           </p>
         </div>
       </div>

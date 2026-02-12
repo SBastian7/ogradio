@@ -31,12 +31,12 @@ export function RequestItem({ request, onVote, isVoting = false }: RequestItemPr
   // Get status info
   const statusConfig = {
     pending: {
-      label: 'Pending',
+      label: 'Pendiente',
       icon: Clock,
       color: 'bg-yellow-500/10 text-yellow-400 border-yellow-500/30',
     },
     playing: {
-      label: 'Now Playing',
+      label: 'Reproduciendo Ahora',
       icon: Play,
       color: 'bg-green-500/10 text-green-400 border-green-500/30',
     },
@@ -45,7 +45,7 @@ export function RequestItem({ request, onVote, isVoting = false }: RequestItemPr
   const status = statusConfig[request.status as 'pending' | 'playing']
 
   // Get username
-  const username = request.anonymous_user?.username || 'Listener'
+  const username = request.anonymous_user?.username || 'Oyente'
 
   return (
     <motion.div
@@ -149,7 +149,7 @@ export function RequestItem({ request, onVote, isVoting = false }: RequestItemPr
       {/* Error State */}
       {request._error && (
         <div className="mt-2 p-2 bg-red-500/10 border border-red-500/30 rounded-lg">
-          <p className="text-xs text-red-400">Failed to submit request</p>
+          <p className="text-xs text-red-400">Error al enviar solicitud</p>
         </div>
       )}
     </motion.div>

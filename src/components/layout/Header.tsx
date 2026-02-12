@@ -39,7 +39,7 @@ export function Header({ onSignInClick, isAnonymous, onSignOut }: HeaderProps) {
                 OG Club Radio
               </h1>
               <p className="text-xs text-white/50 hidden sm:block">
-                Live Streaming Experience
+                Experiencia de Transmisión en Vivo
               </p>
             </div>
           </div>
@@ -57,32 +57,13 @@ export function Header({ onSignInClick, isAnonymous, onSignOut }: HeaderProps) {
                 <div className="flex flex-col items-end">
                   <span className="text-sm font-bold">{onlineCount}</span>
                   <span className="text-[10px] text-white/50 uppercase tracking-wide hidden sm:block">
-                    Listening
+                    Escuchando
                   </span>
                 </div>
               </motion.div>
             )}
 
-            {/* Sign In/Out Button */}
-            {isAnonymous ? (
-              <Button
-                onClick={onSignInClick}
-                variant="primary"
-                size="sm"
-                className="hidden sm:flex"
-              >
-                Sign In
-              </Button>
-            ) : (
-              <Button
-                onClick={onSignOut}
-                variant="ghost"
-                size="sm"
-                className="hidden sm:flex"
-              >
-                Sign Out
-              </Button>
-            )}
+            {/* Sign In/Out Button - Hidden as requested */}
           </div>
         </div>
       </div>

@@ -130,7 +130,7 @@ export function MessageInput({
             'transition-colors',
             'disabled:opacity-50 disabled:cursor-not-allowed'
           )}
-          title="Add emoji"
+          title="Agregar emoji"
         >
           <Smile className="w-5 h-5 text-white/70" />
         </motion.button>
@@ -178,7 +178,7 @@ export function MessageInput({
             onChange={handleInput}
             onKeyDown={handleKeyDown}
             disabled={disabled}
-            placeholder="Type a message... (Enter to send, Shift+Enter for new line)"
+            placeholder="Escribe un mensaje... (Enter para enviar, Shift+Enter para nueva línea)"
             className={cn(
               'w-full px-4 py-3 rounded-lg',
               'bg-white/5 backdrop-blur-sm',
@@ -216,7 +216,7 @@ export function MessageInput({
             'disabled:shadow-none',
             'hover:shadow-xl hover:shadow-accent-blue/50'
           )}
-          title="Send message (Enter)"
+          title="Enviar mensaje (Enter)"
         >
           <Send className="w-5 h-5 text-white" />
         </motion.button>
@@ -231,7 +231,7 @@ export function MessageInput({
               remainingChars < 20 ? 'text-red-400' : 'text-white/40'
             )}
           >
-            {remainingChars} characters remaining
+            {remainingChars} caracteres restantes
           </span>
         </div>
       )}

@@ -60,10 +60,10 @@ export function SongRequestQueue({ className }: SongRequestQueueProps) {
           <div className="flex items-center justify-between p-4 border-b border-white/10">
             <div className="flex items-center gap-2">
               <ListMusic className="w-5 h-5 text-accent-purple" />
-              <h2 className="font-display font-black text-lg">SONG QUEUE</h2>
+              <h2 className="font-display font-black text-lg">COLA DE CANCIONES</h2>
               {requests.length > 0 && (
                 <span className="ml-2 text-xs text-white/50">
-                  {requests.length} request{requests.length !== 1 ? 's' : ''}
+                  {requests.length} solicitud{requests.length !== 1 ? 'es' : ''}
                 </span>
               )}
             </div>
@@ -74,7 +74,7 @@ export function SongRequestQueue({ className }: SongRequestQueueProps) {
               onClick={() => setIsModalOpen(true)}
             >
               <Plus className="w-4 h-4 mr-1" />
-              REQUEST
+              SOLICITAR
             </Button>
           </div>
 
@@ -87,7 +87,7 @@ export function SongRequestQueue({ className }: SongRequestQueueProps) {
               <div className="flex items-center justify-center h-full">
                 <div className="flex items-center gap-3 text-white/50">
                   <Loader2 className="w-5 h-5 animate-spin" />
-                  <span>Loading queue...</span>
+                  <span>Cargando cola...</span>
                 </div>
               </div>
             )}
@@ -99,7 +99,7 @@ export function SongRequestQueue({ className }: SongRequestQueueProps) {
                   <div>
                     <p className="text-red-400 text-sm font-bold">{error}</p>
                     <p className="text-red-400/70 text-xs mt-1">
-                      Check your connection and try refreshing
+                      Verifica tu conexión e intenta actualizar
                     </p>
                   </div>
                 </div>
@@ -115,9 +115,9 @@ export function SongRequestQueue({ className }: SongRequestQueueProps) {
                     </div>
                   </div>
                   <div>
-                    <p className="text-white/50 text-sm font-bold">No requests yet</p>
+                    <p className="text-white/50 text-sm font-bold">No hay solicitudes aún</p>
                     <p className="text-white/30 text-xs mt-1">
-                      Be the first to request a song!
+                      ¡Sé el primero en solicitar una canción!
                     </p>
                   </div>
                   <Button
@@ -126,7 +126,7 @@ export function SongRequestQueue({ className }: SongRequestQueueProps) {
                     onClick={() => setIsModalOpen(true)}
                   >
                     <Plus className="w-4 h-4 mr-1" />
-                    Request a Song
+                    Solicitar una Canción
                   </Button>
                 </div>
               </div>
@@ -156,7 +156,7 @@ export function SongRequestQueue({ className }: SongRequestQueueProps) {
           {/* Footer Info */}
           <div className="px-4 py-3 border-t border-white/10 bg-white/5">
             <p className="text-xs text-white/40 text-center">
-              Vote for your favorite songs • Most voted plays next
+              Vota por tus canciones favoritas • La más votada suena después
             </p>
           </div>
         </GlassPanel>

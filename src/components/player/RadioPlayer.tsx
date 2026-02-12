@@ -65,7 +65,7 @@ export function RadioPlayer({ streamUrl, className }: RadioPlayerProps) {
           <button
             onClick={() => setVisualizerEnabled(!visualizerEnabled)}
             className="absolute top-2 right-2 p-2 rounded-lg bg-black/30 hover:bg-black/50 transition-colors backdrop-blur-sm"
-            title={visualizerEnabled ? 'Hide visualizer' : 'Show visualizer'}
+            title={visualizerEnabled ? 'Ocultar visualizador' : 'Mostrar visualizador'}
           >
             {visualizerEnabled ? (
               <Eye className="w-4 h-4" />
@@ -84,7 +84,7 @@ export function RadioPlayer({ streamUrl, className }: RadioPlayerProps) {
               <div className="flex-1">
                 <p className="text-red-400 text-sm font-bold">{error}</p>
                 <p className="text-red-400/70 text-xs mt-1">
-                  Check your connection and try again
+                  Verifica tu conexión e intenta de nuevo
                 </p>
               </div>
               <Button
@@ -93,7 +93,7 @@ export function RadioPlayer({ streamUrl, className }: RadioPlayerProps) {
                 onClick={retry}
                 className="flex-shrink-0"
               >
-                Retry
+                Reintentar
               </Button>
             </div>
           )}
@@ -120,19 +120,19 @@ export function RadioPlayer({ streamUrl, className }: RadioPlayerProps) {
 
           {/* Stream Info */}
           <div className="flex items-center justify-between text-xs text-white/50 pt-2 border-t border-white/10">
-            <span>OG Club Radio • Live Stream</span>
+            <span>OG Club Radio • Transmisión en Vivo</span>
             <span className="flex items-center gap-3">
               {nowPlayingData && nowPlayingData.listeners > 0 && (
                 <span className="flex items-center gap-1.5">
                   <span className="w-1.5 h-1.5 bg-accent-purple rounded-full" />
-                  {nowPlayingData.listeners} Listener
+                  {nowPlayingData.listeners} Oyente
                   {nowPlayingData.listeners !== 1 ? 's' : ''}
                 </span>
               )}
               {isPlaying && (
                 <span className="flex items-center gap-1.5">
                   <span className="w-2 h-2 bg-accent-blue rounded-full animate-pulse" />
-                  Broadcasting
+                  Transmitiendo
                 </span>
               )}
             </span>

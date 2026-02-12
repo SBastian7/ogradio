@@ -42,10 +42,10 @@ export function ChatPanel({ className }: ChatPanelProps) {
         {/* Header */}
         <div className="flex items-center gap-2 p-4 border-b border-white/10">
           <MessageCircle className="w-5 h-5 text-accent-blue" />
-          <h2 className="font-display font-black text-lg">Live Chat</h2>
+          <h2 className="font-display font-black text-lg">Chat en Vivo</h2>
           {messages.length > 0 && (
             <span className="ml-auto text-xs text-white/50">
-              {messages.length} message{messages.length !== 1 ? 's' : ''}
+              {messages.length} mensaje{messages.length !== 1 ? 's' : ''}
             </span>
           )}
         </div>

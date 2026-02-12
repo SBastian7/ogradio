@@ -106,21 +106,7 @@ export default function Home() {
                   </div>
                 )}
 
-                {isAnonymous ? (
-                  <button
-                    className="btn-primary w-full text-sm"
-                    onClick={() => setAuthModalOpen(true)}
-                  >
-                    Iniciar Sesión
-                  </button>
-                ) : (
-                  <button
-                    className="btn-ghost w-full text-sm"
-                    onClick={handleSignOut}
-                  >
-                    Cerrar Sesión
-                  </button>
-                )}
+                {/* Sign-in/Sign-out buttons hidden as requested */}
               </div>
             </GlassPanel>
 
