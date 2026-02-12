@@ -128,7 +128,6 @@ export default function Home() {
               </div>
             </GlassPanel>
 
-            {/* Progress */}
             <GlassPanel>
               <div className="space-y-3">
                 <h2 className="text-sm font-bold text-white/50 uppercase tracking-wider">
