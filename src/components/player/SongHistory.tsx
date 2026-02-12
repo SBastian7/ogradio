@@ -80,7 +80,7 @@ function HistoryItem({ item }: { item: SongHistoryItem }) {
 /**
  * Song History Panel Component
  */
-export function SongHistory({ className, defaultExpanded = false }: SongHistoryProps) {
+export function SongHistory({ className, defaultExpanded = true }: SongHistoryProps) {
   const [isExpanded, setIsExpanded] = useState(defaultExpanded)
   const { history, loading, error, refresh } = useSongHistory(5)
   const [isRefreshing, setIsRefreshing] = useState(false)

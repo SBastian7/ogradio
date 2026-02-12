@@ -69,8 +69,8 @@ export function useChat() {
         // Skip the connectivity test and just load messages directly
         console.log('[Chat] Fetching messages from database...')
 
-        // Only load messages from the last hour
-        const oneHourAgo = new Date(Date.now() - 60 * 60 * 1000).toISOString()
+        // Only load messages from the last 12 hours
+        const oneHourAgo = new Date(Date.now() - 12 * 60 * 60 * 1000).toISOString()
 
         const { data, error: fetchError } = await supabase
           .from('messages')

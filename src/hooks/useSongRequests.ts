@@ -39,8 +39,8 @@ export function useSongRequests() {
         setLoading(true)
         console.log('[SongRequests] Loading requests...')
 
-        // Load active requests (pending and playing) from the last 15 minutes
-        const fifteenMinutesAgo = new Date(Date.now() - 15 * 60 * 1000).toISOString()
+        // Load active requests (pending and playing) from the last hour
+        const fifteenMinutesAgo = new Date(Date.now() - 60 * 60 * 1000).toISOString()
 
         const { data: requestsData, error: requestsError } = await supabase
           .from('song_requests')
