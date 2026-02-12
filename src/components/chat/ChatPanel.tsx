@@ -11,7 +11,9 @@ import { GlassPanel } from '@/components/ui'
 import { MessageList } from './MessageList'
 import { MessageInput } from './MessageInput'
 import { TypingIndicator } from './TypingIndicator'
+import { OnlineUsersList } from './OnlineUsersList'
 import { useChat } from '@/hooks/useChat'
+import { usePresence } from '@/hooks/usePresence'
 import { cn } from '@/lib/utils'
 import { fadeInVariants } from '@/lib/animations'
 
@@ -31,6 +33,8 @@ export function ChatPanel({ className }: ChatPanelProps) {
     retryMessage,
   } = useChat()
 
+  const { onlineUsers, onlineCount } = usePresence()
+
   return (
     <motion.div
       variants={fadeInVariants}
@@ -49,6 +53,9 @@ export function ChatPanel({ className }: ChatPanelProps) {
             </span>
           )}
         </div>
+
+        {/* Online Users List */}
+        <OnlineUsersList users={onlineUsers} count={onlineCount} />
 
         {/* Message List */}
         <div className="flex-1 overflow-hidden">
