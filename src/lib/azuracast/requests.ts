@@ -5,9 +5,6 @@
 
 import type { AzuraCastSong } from './client'
 
-const AZURACAST_BASE_URL = process.env.NEXT_PUBLIC_AZURACAST_BASE_URL || ''
-const STATION_ID = process.env.NEXT_PUBLIC_AZURACAST_STATION_ID || ''
-
 export interface AzuraCastRequestableTrack {
   request_id: string // Used for submission
   request_url: string // Full URL for request
@@ -135,30 +132,25 @@ export async function fetchRequestableTracks(limit = 10000): Promise<AzuraCastRe
 }
 
 /**
- * Submit request to AzuraCast queue
+ * Submit request to AzuraCast queue via Next.js API proxy
  * Uses the request_id from search results
  */
 export async function submitRequest(
-  requestId: string,
-  apiKey?: string
+  requestId: string
 ): Promise<AzuraCastRequestResponse> {
   try {
     console.log('[AzuraCastRequests] Submitting request:', requestId)
 
-    const url = `${AZURACAST_BASE_URL}/api/station/${STATION_ID}/request/${requestId}`
-
-    const headers: HeadersInit = {
-      'Accept': 'application/json',
-    }
-
-    // Add API key if provided (may not be needed for public request endpoint)
-    if (apiKey) {
-      headers['X-API-Key'] = apiKey
-    }
+    // Use Next.js API proxy to avoid CORS issues
+    const url = '/api/azuracast/request/submit'
 
     const response = await fetch(url, {
       method: 'POST',
-      headers,
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+      },
+      body: JSON.stringify({ request_id: requestId }),
     })
 
     const data = await response.json()

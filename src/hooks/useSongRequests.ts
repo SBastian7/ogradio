@@ -339,12 +339,23 @@ export function useSongRequests() {
         setIsSubmitting(true)
         setError(null)
 
+        // Validate track data
+        const songName = track.track.title?.trim() || 'Canción Desconocida'
+        const artistName = track.track.artist?.trim() || 'Artista Desconocido'
+
+        if (!songName) {
+          setError('El nombre de la canción es requerido')
+          return false
+        }
+
+        if (!artistName) {
+          setError('El nombre del artista es requerido')
+          return false
+        }
+
         // 1. Submit to AzuraCast first
         const { submitRequest, parseRequestError } = await import('@/lib/azuracast/requests')
-        const azResponse = await submitRequest(
-          track.request_id,
-          process.env.NEXT_PUBLIC_AZURACAST_API_KEY
-        )
+        const azResponse = await submitRequest(track.request_id)
 
         if (!azResponse.success) {
           const errorMessage = parseRequestError(azResponse.message || 'Request failed')
@@ -358,8 +369,8 @@ export function useSongRequests() {
         const optimisticRequest: SongRequestWithVotes = {
           id: `optimistic-${Date.now()}`,
           user_id: profile.is_anonymous ? null : profile.id,
-          song_name: track.track.title,
-          artist: track.track.artist,
+          song_name: songName,
+          artist: artistName,
           azuracast_request_id: azResponse.request_id || track.request_id,
           azuracast_track_id: track.track.id,
           is_legacy: false,
@@ -382,8 +393,8 @@ export function useSongRequests() {
         // 4. Save to Supabase (enables voting)
         const requestData = profile.is_anonymous ? {
           user_id: null,
-          song_name: track.track.title,
-          artist: track.track.artist,
+          song_name: songName,
+          artist: artistName,
           azuracast_request_id: azResponse.request_id || track.request_id,
           azuracast_track_id: track.track.id,
           is_legacy: false,
@@ -395,8 +406,8 @@ export function useSongRequests() {
           },
         } : {
           user_id: profile.id,
-          song_name: track.track.title,
-          artist: track.track.artist,
+          song_name: songName,
+          artist: artistName,
           azuracast_request_id: azResponse.request_id || track.request_id,
           azuracast_track_id: track.track.id,
           is_legacy: false,
