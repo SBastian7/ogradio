@@ -27,7 +27,7 @@ export function AuthModal({ isOpen, onClose, onSignIn }: AuthModalProps) {
       // Don't close modal - OAuth redirect will happen
     } catch (error) {
       console.error('Sign in error:', error)
-      toast.error('Failed to sign in. Please try again.')
+      toast.error('Error al iniciar sesión. Por favor intenta de nuevo.')
       setLoading(null)
     }
   }
@@ -59,12 +59,12 @@ export function AuthModal({ isOpen, onClose, onSignIn }: AuthModalProps) {
                 {/* Header */}
                 <div className="flex items-center justify-between mb-6">
                   <h2 className="text-3xl font-display font-black gradient-text uppercase">
-                    Sign In
+                    Iniciar Sesión
                   </h2>
                   <button
                     onClick={onClose}
                     className="p-2 hover:bg-white/10 rounded-lg transition-colors"
-                    aria-label="Close modal"
+                    aria-label="Cerrar modal"
                   >
                     <X className="w-6 h-6" />
                   </button>
@@ -72,7 +72,7 @@ export function AuthModal({ isOpen, onClose, onSignIn }: AuthModalProps) {
 
                 {/* Description */}
                 <p className="text-white/70 mb-8">
-                  Sign in to customize your profile, save your song requests, and get a verified badge in chat!
+                  ¡Inicia sesión para personalizar tu perfil, guardar tus solicitudes de canciones y obtener un distintivo verificado en el chat!
                 </p>
 
                 {/* Social Sign In Buttons */}
@@ -88,7 +88,7 @@ export function AuthModal({ isOpen, onClose, onSignIn }: AuthModalProps) {
                     ) : (
                       <GoogleIcon />
                     )}
-                    <span>Continue with Google</span>
+                    <span>Continuar con Google</span>
                   </button>
 
                   {/* Discord */}
@@ -102,7 +102,7 @@ export function AuthModal({ isOpen, onClose, onSignIn }: AuthModalProps) {
                     ) : (
                       <DiscordIcon />
                     )}
-                    <span>Continue with Discord</span>
+                    <span>Continuar con Discord</span>
                   </button>
 
                   {/* GitHub */}
@@ -116,20 +116,20 @@ export function AuthModal({ isOpen, onClose, onSignIn }: AuthModalProps) {
                     ) : (
                       <GitHubIcon />
                     )}
-                    <span>Continue with GitHub</span>
+                    <span>Continuar con GitHub</span>
                   </button>
                 </div>
 
                 {/* Footer */}
                 <div className="mt-6 text-center text-sm text-white/50">
                   <p>
-                    You can continue listening anonymously
+                    Puedes continuar escuchando anónimamente
                   </p>
                   <button
                     onClick={onClose}
                     className="mt-2 text-accent-blue hover:underline font-bold"
                   >
-                    Skip for now
+                    Saltar por ahora
                   </button>
                 </div>
               </GlassPanel>

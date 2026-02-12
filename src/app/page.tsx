@@ -32,17 +32,17 @@ export default function Home() {
   const handleSignOut = async () => {
     try {
       await signOut()
-      toast.success('Signed out successfully!')
+      toast.success('¡Sesión cerrada exitosamente!')
     } catch (error) {
       console.error('Sign out error:', error)
-      toast.error('Failed to sign out')
+      toast.error('Error al cerrar sesión')
     }
   }
 
   if (loading) {
     return (
       <main className="min-h-screen flex items-center justify-center">
-        <div className="text-white/70">Loading...</div>
+        <div className="text-white/70">Cargando...</div>
       </main>
     )
   }
@@ -56,7 +56,7 @@ export default function Home() {
           px-4 py-2 bg-accent-blue text-white font-bold rounded-lg
           focus:outline-none focus:ring-4 focus:ring-accent-blue/50"
       >
-        Skip to main content
+        Saltar al contenido principal
       </a>
 
       {/* Header */}
@@ -82,7 +82,7 @@ export default function Home() {
             <GlassPanel>
               <div className="space-y-4">
                 <h2 className="text-sm font-bold text-white/50 uppercase tracking-wider">
-                  Listener
+                  Oyente
                 </h2>
 
                 {profile && (
@@ -97,9 +97,9 @@ export default function Home() {
                       <p className="font-bold truncate">{profile.username}</p>
                       <div className="mt-1">
                         {isAnonymous ? (
-                          <Badge variant="default" size="sm">Anonymous</Badge>
+                          <Badge variant="default" size="sm">Anónimo</Badge>
                         ) : (
-                          <Badge variant="verified" size="sm" dot>Verified</Badge>
+                          <Badge variant="verified" size="sm" dot>Verificado</Badge>
                         )}
                       </div>
                     </div>
@@ -111,14 +111,14 @@ export default function Home() {
                     className="btn-primary w-full text-sm"
                     onClick={() => setAuthModalOpen(true)}
                   >
-                    Sign In
+                    Iniciar Sesión
                   </button>
                 ) : (
                   <button
                     className="btn-ghost w-full text-sm"
                     onClick={handleSignOut}
                   >
-                    Sign Out
+                    Cerrar Sesión
                   </button>
                 )}
               </div>

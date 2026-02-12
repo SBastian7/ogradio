@@ -18,21 +18,22 @@ const spaceGrotesk = Space_Grotesk({
 export const metadata: Metadata = {
   metadataBase: new URL('https://ogclub.radio'), // Update with your actual domain
   title: {
-    default: 'OG Club Radio - Live Streaming Music & Community Chat',
+    default: 'OG Club Radio - Transmisión en Vivo y Chat Comunitario',
     template: '%s | OG Club Radio',
   },
-  description: 'Experience live radio streaming with real-time chat, community song requests, and interactive features. Join listeners worldwide and discover great music together.',
+  description: 'Experimenta transmisión de radio en vivo con chat en tiempo real, solicitudes de canciones de la comunidad y funciones interactivas. Únete a oyentes de todo el mundo y descubre buena música juntos.',
   keywords: [
     'radio',
-    'live streaming',
-    'music',
-    'online radio',
+    'transmisión en vivo',
+    'música',
+    'radio online',
     'og club',
-    'community chat',
-    'song requests',
-    'real-time music',
-    'web radio',
-    'internet radio',
+    'chat comunitario',
+    'solicitudes de canciones',
+    'música en tiempo real',
+    'radio web',
+    'radio por internet',
+    'radio colombia',
   ],
   authors: [{ name: 'OG Club', url: 'https://ogclub.radio' }],
   creator: 'OG Club',
@@ -50,24 +51,24 @@ export const metadata: Metadata = {
   },
   openGraph: {
     type: 'website',
-    locale: 'en_US',
+    locale: 'es_CO',
     url: 'https://ogclub.radio',
     siteName: 'OG Club Radio',
-    title: 'OG Club Radio - Live Streaming Music & Community Chat',
-    description: 'Join our community for live radio streaming, real-time chat, and interactive song requests. Discover music with listeners worldwide.',
+    title: 'OG Club Radio - Transmisión en Vivo y Chat Comunitario',
+    description: 'Únete a nuestra comunidad para transmisión de radio en vivo, chat en tiempo real y solicitudes de canciones interactivas. Descubre música con oyentes de todo el mundo.',
     images: [
       {
         url: '/og-image.jpg', // You'll need to add this image
         width: 1200,
         height: 630,
-        alt: 'OG Club Radio - Live Streaming Platform',
+        alt: 'OG Club Radio - Plataforma de Transmisión en Vivo',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'OG Club Radio - Live Streaming Music & Community',
-    description: 'Join our community for live radio streaming, real-time chat, and interactive song requests.',
+    title: 'OG Club Radio - Transmisión en Vivo y Comunidad',
+    description: 'Únete a nuestra comunidad para transmisión de radio en vivo, chat en tiempo real y solicitudes de canciones interactivas.',
     images: ['/og-image.jpg'], // Same image as OG
     creator: '@ogclub', // Update with your Twitter handle
   },
@@ -87,7 +88,7 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en" className={`${inter.variable} ${spaceGrotesk.variable}`}>
+    <html lang="es" className={`${inter.variable} ${spaceGrotesk.variable}`}>
       <body className="font-sans">
         {children}
         <ToastProvider />

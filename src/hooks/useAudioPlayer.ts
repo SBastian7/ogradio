@@ -114,7 +114,7 @@ export function useAudioPlayer(streamUrl: string) {
           }
         }, delay)
       } else {
-        toast.error('Unable to connect to stream. Please try again later.')
+        toast.error('No se puede conectar al stream. Por favor intenta más tarde.')
       }
     }
 
@@ -168,11 +168,11 @@ export function useAudioPlayer(streamUrl: string) {
       }
 
       await audioRef.current.play()
-      toast.success('Connected to OG Club Radio! 🎵')
+      toast.success('¡Conectado a OG Club Radio! 🎵')
     } catch (error) {
       console.error('Play error:', error)
-      setState(prev => ({ ...prev, error: 'Failed to start playback', isLoading: false }))
-      toast.error('Failed to start playback. Please try again.')
+      setState(prev => ({ ...prev, error: 'Error al iniciar reproducción', isLoading: false }))
+      toast.error('Error al iniciar reproducción. Por favor intenta de nuevo.')
     }
   }, [])
 
@@ -223,6 +223,31 @@ export function useAudioPlayer(streamUrl: string) {
     audioRef.current.load()
     play()
   }, [play])
+
+  // Autoplay functionality - attempt to play automatically on mount
+  useEffect(() => {
+    const attemptAutoplay = async () => {
+      // Wait for audio element to be ready
+      if (!audioRef.current || state.isPlaying) return
+
+      try {
+        // Try to play with sound first
+        await play()
+      } catch (error) {
+        // If autoplay fails, show a friendly message
+        console.log('Autoplay blocked by browser. User interaction required.')
+        toast('¡Bienvenido a OG Club Radio! 🎵 Haz clic en el botón de reproducción para escuchar.', {
+          duration: 5000,
+          icon: '🎧',
+        })
+      }
+    }
+
+    // Delay autoplay attempt slightly to ensure everything is loaded
+    const timeoutId = setTimeout(attemptAutoplay, 1000)
+
+    return () => clearTimeout(timeoutId)
+  }, []) // Only run once on mount
 
   return {
     ...state,
