@@ -10,7 +10,7 @@ import { motion } from 'framer-motion'
 import { AlertCircle, Clock, RefreshCw } from 'lucide-react'
 import { Avatar, Badge } from '@/components/ui'
 import { ChatMessage } from '@/hooks/useChat'
-import { useAuth } from '@/hooks/useAuth'
+import { useAuth } from '@/contexts/AuthContext'
 import { formatRelativeTime } from '@/lib/utils'
 import { cn } from '@/lib/utils'
 
@@ -99,12 +99,6 @@ export const MessageBubble = memo(function MessageBubble({ message, onRetry }: M
           {!isAnonymous && (
             <Badge variant="verified" size="sm">
               Verificado
-            </Badge>
-          )}
-
-          {isAnonymous && (
-            <Badge variant="default" size="sm">
-              Anónimo
             </Badge>
           )}
 

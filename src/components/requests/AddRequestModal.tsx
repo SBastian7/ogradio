@@ -81,9 +81,6 @@ export function AddRequestModal({
               {/* Header */}
               <div className="relative px-6 py-5 border-b border-white/10">
                 <div className="flex items-center gap-3">
-                  <div className="p-2 bg-gradient-to-br from-accent-blue to-accent-purple rounded-lg">
-                    <Plus className="w-5 h-5" />
-                  </div>
                   <h2 className="font-display font-black text-xl">
                     SOLICITAR UNA CANCIÓN
                   </h2>

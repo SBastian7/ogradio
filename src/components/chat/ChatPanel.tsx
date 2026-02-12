@@ -41,7 +41,7 @@ export function ChatPanel({ className }: ChatPanelProps) {
       <GlassPanel className="flex flex-col h-full" padding="none">
         {/* Header */}
         <div className="flex items-center gap-2 p-4 border-b border-white/10">
-          <MessageCircle className="w-5 h-5 text-accent-blue" />
+          <MessageCircle className="w-12 h-10 text-accent-blue" />
           <h2 className="font-display font-black text-lg">Chat en Vivo</h2>
           {messages.length > 0 && (
             <span className="ml-auto text-xs text-white/50">

@@ -38,9 +38,6 @@ export function Header({ onSignInClick, isAnonymous, onSignOut }: HeaderProps) {
               <h1 className="font-display font-black text-xl gradient-text uppercase tracking-tight">
                 OG Club Radio
               </h1>
-              <p className="text-xs text-white/50 hidden sm:block">
-                Experiencia de Transmisión en Vivo
-              </p>
             </div>
           </div>
 

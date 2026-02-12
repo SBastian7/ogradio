@@ -73,8 +73,8 @@ export function SongRequestQueue({ className }: SongRequestQueueProps) {
               size="sm"
               onClick={() => setIsModalOpen(true)}
             >
-              <Plus className="w-4 h-4 mr-1" />
-              SOLICITAR
+              {/* <Plus className="w-4 h-4 mr-1" /> */}
+              PEDIR CANCIÓN
             </Button>
           </div>
 
@@ -125,7 +125,6 @@ export function SongRequestQueue({ className }: SongRequestQueueProps) {
                     size="sm"
                     onClick={() => setIsModalOpen(true)}
                   >
-                    <Plus className="w-4 h-4 mr-1" />
                     Solicitar una Canción
                   </Button>
                 </div>
@@ -156,7 +155,7 @@ export function SongRequestQueue({ className }: SongRequestQueueProps) {
           {/* Footer Info */}
           <div className="px-4 py-3 border-t border-white/10 bg-white/5">
             <p className="text-xs text-white/40 text-center">
-              Vota por tus canciones favoritas • La más votada suena después
+              Vota por tus canciones favoritas • La más votada suena primero
             </p>
           </div>
         </GlassPanel>

@@ -5,11 +5,11 @@
 
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { X, User } from 'lucide-react'
 import { Button } from '@/components/ui'
-import { useAuth } from '@/hooks/useAuth'
+import { useAuth } from '@/contexts/AuthContext'
 import { getSupabaseClient } from '@/lib/supabase/client'
 import { toast } from 'react-hot-toast'
 import { fadeInVariants, scaleInVariants } from '@/lib/animations'
@@ -34,6 +34,14 @@ export function EditUsernameModal({
   const [isSubmitting, setIsSubmitting] = useState(false)
 
   const { updateUsername, profile, isAnonymous } = useAuth()
+
+  // Sync local state with profile from useAuth (not parent prop which may be stale)
+  useEffect(() => {
+    if (isOpen && profile) {
+      setUsername(profile.username)
+      setError(null)
+    }
+  }, [isOpen, profile])
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -78,7 +86,6 @@ export function EditUsernameModal({
 
       toast.success('¡Nombre de usuario actualizado!')
       onClose()
-      setUsername(currentUsername) // Reset to current in case modal is reopened
     } catch (err) {
       console.error('Error updating username:', err)
       const errorMessage = err instanceof Error ? err.message : 'Error al actualizar el nombre de usuario'

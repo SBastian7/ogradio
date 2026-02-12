@@ -8,7 +8,7 @@
 import { useState, useEffect, useCallback, useRef, useMemo } from 'react'
 import { getSupabaseClient } from '@/lib/supabase/client'
 import { useRealtimeBroadcast } from './useSupabaseRealtime'
-import { useAuth } from './useAuth'
+import { useAuth } from '@/contexts/AuthContext'
 import DOMPurify from 'isomorphic-dompurify'
 
 export interface ChatMessage {
@@ -69,9 +69,13 @@ export function useChat() {
         // Skip the connectivity test and just load messages directly
         console.log('[Chat] Fetching messages from database...')
 
+        // Only load messages from the last hour
+        const oneHourAgo = new Date(Date.now() - 60 * 60 * 1000).toISOString()
+
         const { data, error: fetchError } = await supabase
           .from('messages')
           .select('*')
+          .gte('created_at', oneHourAgo)
           .order('created_at', { ascending: true })
           .limit(100)
 

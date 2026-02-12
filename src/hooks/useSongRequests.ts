@@ -8,7 +8,7 @@
 import { useState, useEffect, useCallback, useMemo } from 'react'
 import { getSupabaseClient } from '@/lib/supabase/client'
 import { useRealtimeBroadcast } from './useSupabaseRealtime'
-import { useAuth } from './useAuth'
+import { useAuth } from '@/contexts/AuthContext'
 import { SongRequest, SongRequestWithVotes, RequestStatus } from '@/types/song-requests'
 import DOMPurify from 'isomorphic-dompurify'
 
@@ -39,11 +39,14 @@ export function useSongRequests() {
         setLoading(true)
         console.log('[SongRequests] Loading requests...')
 
-        // Load active requests (pending and playing)
+        // Load active requests (pending and playing) from the last 15 minutes
+        const fifteenMinutesAgo = new Date(Date.now() - 15 * 60 * 1000).toISOString()
+
         const { data: requestsData, error: requestsError } = await supabase
           .from('song_requests')
           .select('*')
           .in('status', ['pending', 'playing'])
+          .gte('created_at', fifteenMinutesAgo)
           .order('created_at', { ascending: true })
 
         if (requestsError) throw requestsError

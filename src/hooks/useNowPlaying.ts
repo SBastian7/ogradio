@@ -105,7 +105,8 @@ export function useNowPlaying() {
         clearInterval(intervalId)
       }
     }
-  }, [broadcast])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []) // Solo ejecutar una vez al montar
 
   return { data, loading, error }
 }

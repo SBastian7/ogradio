@@ -1,11 +1,11 @@
 /**
- * useAuth Hook
- * Authentication state management with anonymous user support
+ * AuthContext
+ * Shared authentication state across all components
  */
 
 'use client'
 
-import { useEffect, useState, useCallback } from 'react'
+import { createContext, useContext, useEffect, useState, useCallback, type ReactNode } from 'react'
 import { flushSync } from 'react-dom'
 import { User } from '@supabase/supabase-js'
 import { getSupabaseClient } from '@/lib/supabase/client'
@@ -19,10 +19,18 @@ export interface AuthState {
   profile: Profile | null
   loading: boolean
   isAnonymous: boolean
-  _rev?: number // revision counter to force re-renders
+  _rev?: number
 }
 
-export function useAuth() {
+interface AuthContextValue extends AuthState {
+  signInWithOAuth: (provider: 'google' | 'discord' | 'github') => Promise<void>
+  signOut: () => Promise<void>
+  updateUsername: (newUsername: string) => Promise<void>
+}
+
+const AuthContext = createContext<AuthContextValue | undefined>(undefined)
+
+export function AuthProvider({ children }: { children: ReactNode }) {
   const [state, setState] = useState<AuthState>({
     user: null,
     profile: null,
@@ -100,7 +108,6 @@ export function useAuth() {
           })
         } else if (event === 'SIGNED_OUT') {
           // Only create new anonymous user when explicitly signing out
-          // NOT on initial load or other events
           const anonymousId = crypto.randomUUID()
           const anonymousUsername = generateAnonymousUsername()
           localStorage.setItem('anonymous_user_id', anonymousId)
@@ -149,7 +156,6 @@ export function useAuth() {
     if (error) {
       throw error
     }
-    // State will be updated by onAuthStateChange
   }, [supabase])
 
   // Update username
@@ -183,7 +189,7 @@ export function useAuth() {
             profile: newProfile,
             loading: false,
             isAnonymous: prev.isAnonymous,
-            _rev: (prev._rev || 0) + 1, // increment to force re-render
+            _rev: (prev._rev || 0) + 1,
           }
 
           return newState
@@ -200,15 +206,25 @@ export function useAuth() {
         username: newUsername,
       })
       flushSync(() => {
-        setState(prev => ({ ...prev, profile: updated }))
+        setState(prev => ({ ...prev, profile: updated, _rev: (prev._rev || 0) + 1 }))
       })
     }
   }, [supabase])
 
-  return {
+  const value: AuthContextValue = {
     ...state,
     signInWithOAuth,
     signOut,
     updateUsername,
   }
+
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
+}
+
+export function useAuth() {
+  const context = useContext(AuthContext)
+  if (context === undefined) {
+    throw new Error('useAuth must be used within an AuthProvider')
+  }
+  return context
 }

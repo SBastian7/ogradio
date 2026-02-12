@@ -5,6 +5,7 @@
 
 'use client'
 
+import { forwardRef } from 'react'
 import { motion } from 'framer-motion'
 import { Heart, Music2, Clock, Play } from 'lucide-react'
 import { Avatar, Badge } from '@/components/ui'
@@ -18,7 +19,8 @@ export interface RequestItemProps {
   isVoting?: boolean
 }
 
-export function RequestItem({ request, onVote, isVoting = false }: RequestItemProps) {
+export const RequestItem = forwardRef<HTMLDivElement, RequestItemProps>(
+  function RequestItem({ request, onVote, isVoting = false }, ref) {
   const isPlaying = request.status === 'playing'
   const hasVoted = request.hasUserVoted || false
 
@@ -49,6 +51,7 @@ export function RequestItem({ request, onVote, isVoting = false }: RequestItemPr
 
   return (
     <motion.div
+      ref={ref}
       layout
       variants={fadeInVariants}
       initial="hidden"
@@ -154,4 +157,4 @@ export function RequestItem({ request, onVote, isVoting = false }: RequestItemPr
       )}
     </motion.div>
   )
-}
+})

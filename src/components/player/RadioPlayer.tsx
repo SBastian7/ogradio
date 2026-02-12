@@ -53,7 +53,9 @@ export function RadioPlayer({ streamUrl, className }: RadioPlayerProps) {
     >
       <GlassPanel className="overflow-hidden" padding="none">
         {/* Visualizer */}
-        <div className="relative h-32 bg-gradient-to-b from-background-darker/50 to-transparent">
+        {
+          isPlaying && (
+            <div className="relative h-32 bg-gradient-to-b from-background-darker/50 to-transparent">
           <Visualizer
             analyser={analyser}
             isPlaying={isPlaying}
@@ -74,6 +76,8 @@ export function RadioPlayer({ streamUrl, className }: RadioPlayerProps) {
             )}
           </button>
         </div>
+          )
+        }
 
         {/* Player Content */}
         <div className="p-6 space-y-6">

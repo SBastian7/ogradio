@@ -7,7 +7,7 @@
 
 import { useState, useEffect } from 'react'
 import { getSupabaseClient } from '@/lib/supabase/client'
-import { useAuth } from './useAuth'
+import { useAuth } from '@/contexts/AuthContext'
 
 export interface PresenceUser {
   userId: string

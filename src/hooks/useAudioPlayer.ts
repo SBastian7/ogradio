@@ -224,31 +224,6 @@ export function useAudioPlayer(streamUrl: string) {
     play()
   }, [play])
 
-  // Autoplay functionality - attempt to play automatically on mount
-  useEffect(() => {
-    const attemptAutoplay = async () => {
-      // Wait for audio element to be ready
-      if (!audioRef.current || state.isPlaying) return
-
-      try {
-        // Try to play with sound first
-        await play()
-      } catch (error) {
-        // If autoplay fails, show a friendly message
-        console.log('Autoplay blocked by browser. User interaction required.')
-        toast('¡Bienvenido a OG Club Radio! 🎵 Haz clic en el botón de reproducción para escuchar.', {
-          duration: 5000,
-          icon: '🎧',
-        })
-      }
-    }
-
-    // Delay autoplay attempt slightly to ensure everything is loaded
-    const timeoutId = setTimeout(attemptAutoplay, 1000)
-
-    return () => clearTimeout(timeoutId)
-  }, []) // Only run once on mount
-
   return {
     ...state,
     play,

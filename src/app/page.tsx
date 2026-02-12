@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import dynamic from 'next/dynamic'
 import { Edit2 } from 'lucide-react'
-import { useAuth } from '@/hooks/useAuth'
+import { useAuth } from '@/contexts/AuthContext'
 import { Avatar, Badge, toast, GlassPanel } from '@/components/ui'
 import { RadioPlayer } from '@/components/player'
 import { ChatPanel } from '@/components/chat'
@@ -24,7 +24,7 @@ const STREAM_URL = process.env.NEXT_PUBLIC_RADIO_STREAM_URL || 'https://radio.og
 export default function Home() {
   const [authModalOpen, setAuthModalOpen] = useState(false)
   const [editUsernameModalOpen, setEditUsernameModalOpen] = useState(false)
-  const { profile, loading, isAnonymous, signInWithOAuth, signOut } = useAuth()
+  const { profile, loading, isAnonymous, signInWithOAuth, signOut, _rev } = useAuth()
 
   const handleSignIn = async (provider: 'google' | 'discord' | 'github') => {
     try {
@@ -94,6 +94,7 @@ export default function Home() {
                 {profile && (
                   <div className="flex items-center gap-3">
                     <Avatar
+                      key={`avatar-${profile.username}-${_rev}`}
                       name={profile.username}
                       src={profile.avatar_url}
                       verified={!isAnonymous}
@@ -101,7 +102,9 @@ export default function Home() {
                     />
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-2">
-                        <p className="font-bold truncate">{profile.username}</p>
+                        <p className="font-bold truncate" key={`username-${profile.username}-${_rev}`}>
+                          {profile.username}
+                        </p>
                         <button
                           onClick={() => setEditUsernameModalOpen(true)}
                           className="p-1 rounded-lg hover:bg-white/10 transition-colors flex-shrink-0"
@@ -112,7 +115,7 @@ export default function Home() {
                       </div>
                       <div className="mt-1">
                         {isAnonymous ? (
-                          <Badge variant="default" size="sm">Anónimo</Badge>
+                          <Badge variant="default" size="sm">No registrado</Badge>
                         ) : (
                           <Badge variant="verified" size="sm" dot>Verificado</Badge>
                         )}
@@ -151,7 +154,7 @@ export default function Home() {
 
           {/* Info Text */}
           <div className="text-center text-sm text-white/50 pt-8">
-            <p>Sebastián Molina @ OG Club 2026</p>
+            <p>OG Club @ 2026</p>
           </div>
         </div>
       </main>
