@@ -96,10 +96,13 @@ export function SongRequestQueue({ className }: SongRequestQueueProps) {
           </div>
 
           {/* Queue List */}
-          <div className="flex-1 overflow-y-auto p-4" style={{
-            scrollbarWidth: 'thin',
-            scrollbarColor: 'rgba(255, 255, 255, 0.2) transparent',
-          }}>
+          <div
+            className="flex-1 overflow-y-auto p-4 max-h-[600px]"
+            style={{
+              scrollbarWidth: 'thin',
+              scrollbarColor: 'rgba(255, 255, 255, 0.2) transparent',
+            }}
+          >
             {loading && (
               <div className="flex items-center justify-center h-full">
                 <div className="flex items-center gap-3 text-white/50">

@@ -141,12 +141,12 @@ export default function Home() {
         {/* Chat & Song Requests Section */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           {/* Chat */}
-          <div className="h-[600px]">
+          <div className="max-h-[720px]">
             <ChatPanel />
           </div>
 
           {/* Song Request Queue */}
-          <div className="h-[600px]">
+          <div className="max-h-[600px]">
             <SongRequestQueue />
           </div>
         </div>
