@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import dynamic from 'next/dynamic'
+import { Edit2 } from 'lucide-react'
 import { useAuth } from '@/hooks/useAuth'
 import { Avatar, Badge, toast, GlassPanel } from '@/components/ui'
 import { RadioPlayer } from '@/components/player'
@@ -14,10 +15,15 @@ const AuthModal = dynamic(() => import('@/components/ui').then(mod => ({ default
   ssr: false,
 })
 
+const EditUsernameModal = dynamic(() => import('@/components/profile').then(mod => ({ default: mod.EditUsernameModal })), {
+  ssr: false,
+})
+
 const STREAM_URL = process.env.NEXT_PUBLIC_RADIO_STREAM_URL || 'https://radio.ogclub.info/listen/og_club/radio.mp3'
 
 export default function Home() {
   const [authModalOpen, setAuthModalOpen] = useState(false)
+  const [editUsernameModalOpen, setEditUsernameModalOpen] = useState(false)
   const { profile, loading, isAnonymous, signInWithOAuth, signOut } = useAuth()
 
   const handleSignIn = async (provider: 'google' | 'discord' | 'github') => {
@@ -94,7 +100,16 @@ export default function Home() {
                       size="lg"
                     />
                     <div className="flex-1 min-w-0">
-                      <p className="font-bold truncate">{profile.username}</p>
+                      <div className="flex items-center gap-2">
+                        <p className="font-bold truncate">{profile.username}</p>
+                        <button
+                          onClick={() => setEditUsernameModalOpen(true)}
+                          className="p-1 rounded-lg hover:bg-white/10 transition-colors flex-shrink-0"
+                          aria-label="Editar nombre de usuario"
+                        >
+                          <Edit2 className="w-4 h-4 text-white/50 hover:text-white/70" />
+                        </button>
+                      </div>
                       <div className="mt-1">
                         {isAnonymous ? (
                           <Badge variant="default" size="sm">Anónimo</Badge>
@@ -146,6 +161,13 @@ export default function Home() {
         isOpen={authModalOpen}
         onClose={() => setAuthModalOpen(false)}
         onSignIn={handleSignIn}
+      />
+
+      {/* Edit Username Modal */}
+      <EditUsernameModal
+        isOpen={editUsernameModalOpen}
+        onClose={() => setEditUsernameModalOpen(false)}
+        currentUsername={profile?.username || ''}
       />
     </>
   )
