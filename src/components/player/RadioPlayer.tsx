@@ -12,6 +12,7 @@ import { GlassPanel, Button } from '@/components/ui'
 import { Visualizer } from './Visualizer'
 import { NowPlaying } from './NowPlaying'
 import { PlayerControls } from './PlayerControls'
+import { SongHistory } from './SongHistory'
 import { useAudioPlayer } from '@/hooks/useAudioPlayer'
 import { useNowPlaying } from '@/hooks/useNowPlaying'
 import { cn } from '@/lib/utils'
@@ -42,6 +43,7 @@ export function RadioPlayer({ streamUrl, className }: RadioPlayerProps) {
     data: nowPlayingData,
     loading: _nowPlayingLoading,
     error: _nowPlayingError,
+    realtimeStatus,
   } = useNowPlaying()
 
   return (
@@ -62,6 +64,24 @@ export function RadioPlayer({ streamUrl, className }: RadioPlayerProps) {
             enabled={visualizerEnabled}
             className="opacity-90"
           />
+
+          {/* Connection Status Badge (top-left) - Only show meaningful states */}
+          {realtimeStatus && realtimeStatus !== 'connecting' && (
+            <div className="absolute top-2 left-2">
+              {realtimeStatus === 'connected' && (
+                <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-green-500/20 border border-green-500/40 backdrop-blur-sm">
+                  <span className="w-1.5 h-1.5 bg-green-400 rounded-full animate-pulse" />
+                  <span className="text-xs font-bold text-green-100">Live Updates</span>
+                </div>
+              )}
+              {(realtimeStatus === 'disconnected' || realtimeStatus === 'error') && (
+                <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-gray-500/20 border border-gray-500/40 backdrop-blur-sm">
+                  <span className="w-1.5 h-1.5 bg-gray-400 rounded-full" />
+                  <span className="text-xs font-bold text-gray-100">Polling Mode</span>
+                </div>
+              )}
+            </div>
+          )}
 
           {/* Visualizer Toggle */}
           <button
@@ -121,6 +141,9 @@ export function RadioPlayer({ streamUrl, className }: RadioPlayerProps) {
             onVolumeChange={setVolume}
             onToggleMute={toggleMute}
           />
+
+          {/* Song History */}
+          <SongHistory />
 
           {/* Stream Info */}
           <div className="flex items-center justify-between text-xs text-white/50 pt-2 border-t border-white/10">

@@ -125,12 +125,28 @@ export function Visualizer({
         // Calculate x position
         const x = i * barWidth
 
-        // Draw rounded rectangle
+        // Draw rounded rectangle (with fallback for older browsers/mobile)
         const y = height - barHeight
         const actualBarWidth = barWidth - gap
+        const radius = 2
 
         ctx.beginPath()
-        ctx.roundRect(x, y, actualBarWidth, barHeight, [2, 2, 0, 0])
+
+        // Check if roundRect is supported (modern browsers)
+        if (typeof ctx.roundRect === 'function') {
+          ctx.roundRect(x, y, actualBarWidth, barHeight, [radius, radius, 0, 0])
+        } else {
+          // Fallback for browsers without roundRect support (mobile Safari, older browsers)
+          // Draw rounded top corners manually
+          ctx.moveTo(x + radius, y)
+          ctx.lineTo(x + actualBarWidth - radius, y)
+          ctx.quadraticCurveTo(x + actualBarWidth, y, x + actualBarWidth, y + radius)
+          ctx.lineTo(x + actualBarWidth, y + barHeight)
+          ctx.lineTo(x, y + barHeight)
+          ctx.lineTo(x, y + radius)
+          ctx.quadraticCurveTo(x, y, x + radius, y)
+        }
+
         ctx.fill()
       }
     }

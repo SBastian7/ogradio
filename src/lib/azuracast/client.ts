@@ -33,18 +33,22 @@ export interface AzuraCastNowPlaying {
 
 export interface AzuraCastHistoryItem {
   song: AzuraCastSong
-  played_at: number
+  played_at: number       // Unix timestamp
+  duration: number        // Song duration in seconds
+  playlist: string        // Playlist name or empty
+  streamer: string | null // DJ name if live broadcast
+  is_request: boolean     // True if song was requested
 }
 
 const AZURACAST_BASE_URL = process.env.NEXT_PUBLIC_AZURACAST_BASE_URL || 'https://radio.ogclub.info'
 const STATION_ID = process.env.NEXT_PUBLIC_AZURACAST_STATION_ID || 'og_club'
 
 /**
- * Fetch now playing data from AzuraCast
+ * Fetch now playing data from AzuraCast via proxy
  */
 export async function fetchNowPlaying(): Promise<AzuraCastNowPlaying | null> {
   try {
-    const response = await fetch(`${AZURACAST_BASE_URL}/api/nowplaying/${STATION_ID}`, {
+    const response = await fetch('/api/azuracast/nowplaying', {
       cache: 'no-store',
       next: { revalidate: 0 },
     })
@@ -62,12 +66,12 @@ export async function fetchNowPlaying(): Promise<AzuraCastNowPlaying | null> {
 }
 
 /**
- * Fetch song history from AzuraCast
+ * Fetch song history from AzuraCast via proxy
  */
-export async function fetchSongHistory(limit: number = 5): Promise<AzuraCastHistoryItem[]> {
+export async function fetchSongHistory(limit: number = 20): Promise<AzuraCastHistoryItem[]> {
   try {
     const response = await fetch(
-      `${AZURACAST_BASE_URL}/api/station/${STATION_ID}/history?limit=${limit}`,
+      `/api/azuracast/history?limit=${limit}`,
       {
         cache: 'no-store',
         next: { revalidate: 0 },
@@ -108,4 +112,29 @@ export function getAlbumArtUrl(song: AzuraCastSong): string | null {
   }
 
   return song.art
+}
+
+/**
+ * Format history timestamp to relative time
+ * @param playedAt - Unix timestamp in seconds
+ * @returns Relative time string (e.g., "2 minutes ago")
+ */
+export function formatHistoryTimestamp(playedAt: number): string {
+  const now = Date.now()
+  const playedDate = playedAt * 1000 // Convert to milliseconds
+  const diffMs = now - playedDate
+  const diffSec = Math.floor(diffMs / 1000)
+  const diffMin = Math.floor(diffSec / 60)
+  const diffHour = Math.floor(diffMin / 60)
+  const diffDay = Math.floor(diffHour / 24)
+
+  if (diffSec < 60) {
+    return 'Hace unos segundos'
+  } else if (diffMin < 60) {
+    return `Hace ${diffMin} minuto${diffMin !== 1 ? 's' : ''}`
+  } else if (diffHour < 24) {
+    return `Hace ${diffHour} hora${diffHour !== 1 ? 's' : ''}`
+  } else {
+    return `Hace ${diffDay} día${diffDay !== 1 ? 's' : ''}`
+  }
 }

@@ -133,6 +133,25 @@ export const RequestItem = forwardRef<HTMLDivElement, RequestItemProps>(
                 addSuffix: true,
               })}
             </span>
+
+            {/* AzuraCast Integration Badge */}
+            {request.azuracast_request_id && !request.is_legacy && (
+              <>
+                <span>•</span>
+                <Badge variant="default" size="sm" className="bg-green-500/10 text-green-400 border-green-500/30">
+                  En Cola DJ
+                </Badge>
+              </>
+            )}
+
+            {request.is_legacy && (
+              <>
+                <span>•</span>
+                <Badge variant="default" size="sm" className="bg-gray-500/10 text-gray-400 border-gray-500/30">
+                  Manual
+                </Badge>
+              </>
+            )}
           </div>
         </div>
 

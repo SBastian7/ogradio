@@ -19,6 +19,10 @@ export interface SongRequest {
     is_anonymous: boolean
   } | null
   vote_count?: number
+  // AzuraCast integration fields
+  azuracast_request_id?: string | null // Links to AzuraCast queue
+  azuracast_track_id?: string | null // Media library ID
+  is_legacy?: boolean // True for old manual requests
   // For client-side tracking
   _optimistic?: boolean
   _error?: boolean

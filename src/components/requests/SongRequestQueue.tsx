@@ -14,8 +14,12 @@ import { RequestItem } from './RequestItem'
 import { useSongRequests } from '@/hooks/useSongRequests'
 import { fadeInVariants, staggerContainer } from '@/lib/animations'
 
-// Code splitting - lazy load modal
+// Code splitting - lazy load modals
 const AddRequestModal = dynamic(() => import('./AddRequestModal').then(mod => ({ default: mod.AddRequestModal })), {
+  ssr: false,
+})
+
+const RequestSearchModal = dynamic(() => import('./RequestSearchModal').then(mod => ({ default: mod.RequestSearchModal })), {
   ssr: false,
 })
 
@@ -24,7 +28,8 @@ export interface SongRequestQueueProps {
 }
 
 export function SongRequestQueue({ className }: SongRequestQueueProps) {
-  const [isModalOpen, setIsModalOpen] = useState(false)
+  const [isSearchModalOpen, setIsSearchModalOpen] = useState(false)
+  const [isManualModalOpen, setIsManualModalOpen] = useState(false)
   const [votingRequestId, setVotingRequestId] = useState<string | null>(null)
 
   const {
@@ -33,8 +38,12 @@ export function SongRequestQueue({ className }: SongRequestQueueProps) {
     error,
     isSubmitting,
     addRequest,
+    addRequestFromTrack,
     toggleVote,
   } = useSongRequests()
+
+  // Check if AzuraCast request feature is enabled
+  const azuracastRequestsEnabled = process.env.NEXT_PUBLIC_ENABLE_AZURACAST_REQUESTS !== 'false'
 
   const handleVote = async (requestId: string) => {
     setVotingRequestId(requestId)
@@ -44,6 +53,14 @@ export function SongRequestQueue({ className }: SongRequestQueueProps) {
 
   const handleAddRequest = async (songName: string, artist: string) => {
     const success = await addRequest(songName, artist)
+    return success
+  }
+
+  const handleSelectTrack = async (track: any) => {
+    const success = await addRequestFromTrack(track)
+    if (success) {
+      setIsSearchModalOpen(false)
+    }
     return success
   }
 
@@ -71,7 +88,7 @@ export function SongRequestQueue({ className }: SongRequestQueueProps) {
             <Button
               variant="primary"
               size="sm"
-              onClick={() => setIsModalOpen(true)}
+              onClick={() => azuracastRequestsEnabled ? setIsSearchModalOpen(true) : setIsManualModalOpen(true)}
             >
               {/* <Plus className="w-4 h-4 mr-1" /> */}
               PEDIR CANCIÓN
@@ -123,7 +140,7 @@ export function SongRequestQueue({ className }: SongRequestQueueProps) {
                   <Button
                     variant="secondary"
                     size="sm"
-                    onClick={() => setIsModalOpen(true)}
+                    onClick={() => azuracastRequestsEnabled ? setIsSearchModalOpen(true) : setIsManualModalOpen(true)}
                   >
                     Solicitar una Canción
                   </Button>
@@ -161,10 +178,20 @@ export function SongRequestQueue({ className }: SongRequestQueueProps) {
         </GlassPanel>
       </motion.div>
 
-      {/* Add Request Modal */}
+      {/* Search Modal (AzuraCast Integration) */}
+      {azuracastRequestsEnabled && (
+        <RequestSearchModal
+          isOpen={isSearchModalOpen}
+          onClose={() => setIsSearchModalOpen(false)}
+          onSelect={handleSelectTrack}
+          isSubmitting={isSubmitting}
+        />
+      )}
+
+      {/* Manual Request Modal (Legacy) */}
       <AddRequestModal
-        isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
+        isOpen={isManualModalOpen}
+        onClose={() => setIsManualModalOpen(false)}
         onSubmit={handleAddRequest}
         isSubmitting={isSubmitting}
       />

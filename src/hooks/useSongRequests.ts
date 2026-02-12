@@ -244,6 +244,7 @@ export function useSongRequests() {
           user_id: profile.is_anonymous ? null : profile.id,
           song_name: sanitizedSong,
           artist: sanitizedArtist,
+          is_legacy: true, // Mark manual requests as legacy
           status: 'pending',
           created_at: new Date().toISOString(),
           played_at: null,
@@ -265,6 +266,7 @@ export function useSongRequests() {
           user_id: null,
           song_name: sanitizedSong,
           artist: sanitizedArtist,
+          is_legacy: true,
           status: 'pending' as RequestStatus,
           anonymous_user: {
             username: profile.username,
@@ -275,6 +277,7 @@ export function useSongRequests() {
           user_id: profile.id,
           song_name: sanitizedSong,
           artist: sanitizedArtist,
+          is_legacy: true,
           status: 'pending' as RequestStatus,
         }
 
@@ -311,6 +314,128 @@ export function useSongRequests() {
         return true
       } catch (err) {
         console.error('[SongRequests] Error adding request:', err)
+        setError('Error al agregar solicitud')
+        return false
+      } finally {
+        setIsSubmitting(false)
+      }
+    },
+    [profile, broadcast]
+  )
+
+  /**
+   * Add a request from AzuraCast track (native request system)
+   */
+  const addRequestFromTrack = useCallback(
+    async (track: any) => {
+      const supabase = getSupabaseClient()
+
+      if (!profile) {
+        setError('Debes iniciar sesión para solicitar canciones')
+        return false
+      }
+
+      try {
+        setIsSubmitting(true)
+        setError(null)
+
+        // 1. Submit to AzuraCast first
+        const { submitRequest, parseRequestError } = await import('@/lib/azuracast/requests')
+        const azResponse = await submitRequest(
+          track.request_id,
+          process.env.NEXT_PUBLIC_AZURACAST_API_KEY
+        )
+
+        if (!azResponse.success) {
+          const errorMessage = parseRequestError(azResponse.message || 'Request failed')
+          setError(errorMessage)
+          return false
+        }
+
+        console.log('[SongRequests] AzuraCast submission successful:', azResponse.request_id)
+
+        // 2. Create optimistic request
+        const optimisticRequest: SongRequestWithVotes = {
+          id: `optimistic-${Date.now()}`,
+          user_id: profile.is_anonymous ? null : profile.id,
+          song_name: track.track.title,
+          artist: track.track.artist,
+          azuracast_request_id: azResponse.request_id || track.request_id,
+          azuracast_track_id: track.track.id,
+          is_legacy: false,
+          status: 'pending',
+          created_at: new Date().toISOString(),
+          played_at: null,
+          anonymous_user: profile.is_anonymous ? {
+            username: profile.username,
+            avatar_url: profile.avatar_url,
+            is_anonymous: true,
+          } : undefined,
+          vote_count: 0,
+          hasUserVoted: false,
+          _optimistic: true,
+        }
+
+        // 3. Add to UI optimistically
+        setRequests((prev) => sortRequests([...prev, optimisticRequest]))
+
+        // 4. Save to Supabase (enables voting)
+        const requestData = profile.is_anonymous ? {
+          user_id: null,
+          song_name: track.track.title,
+          artist: track.track.artist,
+          azuracast_request_id: azResponse.request_id || track.request_id,
+          azuracast_track_id: track.track.id,
+          is_legacy: false,
+          status: 'pending' as RequestStatus,
+          anonymous_user: {
+            username: profile.username,
+            avatar_url: profile.avatar_url,
+            is_anonymous: true,
+          },
+        } : {
+          user_id: profile.id,
+          song_name: track.track.title,
+          artist: track.track.artist,
+          azuracast_request_id: azResponse.request_id || track.request_id,
+          azuracast_track_id: track.track.id,
+          is_legacy: false,
+          status: 'pending' as RequestStatus,
+        }
+
+        const { data: insertedData, error: insertError } = await supabase
+          .from('song_requests')
+          .insert([requestData] as any)
+          .select()
+          .single()
+
+        if (insertError || !insertedData) {
+          // Mark optimistic request as error
+          setRequests((prev) =>
+            prev.map((r) =>
+              r.id === optimisticRequest.id ? { ...r, _error: true } : r
+            )
+          )
+          throw insertError || new Error('Failed to insert request')
+        }
+
+        // 5. Broadcast to all clients
+        await broadcast('new-request', insertedData)
+
+        // 6. Replace optimistic with real
+        setRequests((prev) =>
+          sortRequests(
+            prev.map((r) =>
+              r.id === optimisticRequest.id
+                ? { ...(insertedData as any), vote_count: 0, hasUserVoted: false }
+                : r
+            )
+          )
+        )
+
+        return true
+      } catch (err) {
+        console.error('[SongRequests] Error adding request from track:', err)
         setError('Error al agregar solicitud')
         return false
       } finally {
@@ -448,6 +573,7 @@ export function useSongRequests() {
     error,
     isSubmitting,
     addRequest,
+    addRequestFromTrack,
     toggleVote,
   }
 }
